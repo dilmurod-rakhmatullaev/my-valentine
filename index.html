@@ -13,6 +13,7 @@ body {
     text-align: center;
     background: linear-gradient(135deg, #f7c6d0, #e3a3d1, #d9b3ff);
     transition: background 2s;
+    color: white;
 }
 
 /* Intro screen */
@@ -52,38 +53,42 @@ body {
     position: relative;
     z-index: 10;
     padding: 60px 20px;
-    color: white;
     min-height: 100vh;
 }
 
-h1 {
-    font-size: 2.8em;
-    margin-bottom: 20px;
-}
-
-.main-heart {
-    color: red;
-    font-size: 1.2em;
-}
-
-p {
+/* Glowing text effect */
+#typed-text {
     font-size: 1.3em;
     line-height: 1.6;
     max-width: 650px;
     margin: auto;
     white-space: pre-wrap;
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ffb3c6,
+        0 0 15px #ff80ab,
+        0 0 20px #ff4d85;
+}
+
+/* Glowing header heart */
+.main-heart {
+    color: red;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px red, 0 0 10px pink;
 }
 
 .signature {
     margin-top: 30px;
     font-size: 1.6em;
     font-weight: bold;
+    text-shadow: 0 0 5px #fff, 0 0 10px #ffb3c6;
 }
 
 .counter {
     margin: 25px 0;
     font-size: 1.5em;
     font-style: italic;
+    text-shadow: 0 0 3px #fff, 0 0 6px #ffb3c6;
 }
 
 /* Falling romantic emojis */
@@ -92,11 +97,21 @@ p {
     top: -50px;
     font-size: 24px;
     animation: fall linear forwards;
+    opacity: 0.7;
+    animation-name: fall, shimmer;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+}
+
+/* Emoji shimmer */
+@keyframes shimmer {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
 @keyframes fall {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(110vh); opacity: 0; }
+    0% { transform: translateY(0); }
+    100% { transform: translateY(110vh); }
 }
 
 .music-btn {
@@ -159,7 +174,7 @@ function checkName() {
     }
 }
 
-// 💖 Falling emojis
+// 💖 Falling emojis with shimmer
 const emojis = [
     "❤️","💖","💘","💞","😍","🤗","☀️","💐","🌷","🌹","🌸","⭐️","💫","✨","💍"
 ];
@@ -168,14 +183,16 @@ function createFallingEmoji() {
     const emoji = document.createElement("div");
     emoji.classList.add("fall");
     emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-    emoji.style.left = Math.random() * 100 + "vw"; // horizontal position
-    emoji.style.animationDuration = (4 + Math.random() * 4) + "s"; // fall speed
+    emoji.style.left = Math.random() * 100 + "vw"; 
+    emoji.style.fontSize = (20 + Math.random() * 20) + "px"; // random size
+    emoji.style.opacity = (0.5 + Math.random() * 0.5); // random opacity
+    emoji.style.animationDuration = (4 + Math.random() * 4) + "s"; 
     document.body.appendChild(emoji);
     setTimeout(() => emoji.remove(), 8000);
 }
 
 function startEmojis() {
-    setInterval(createFallingEmoji, 500);
+    setInterval(createFallingEmoji, 400);
 }
 
 // 🎵 Music handling
